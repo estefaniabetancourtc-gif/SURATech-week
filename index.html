@@ -101,14 +101,26 @@ button:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
 <div class="vig"></div>
 <div class="prog" aria-hidden="true"><i id="prog"></i></div>
 <div class="top"><div class="mark">SURA Tech<span>Week</span></div><div class="dots" id="dots" aria-hidden="true"></div><button class="skip" id="skip" type="button" hidden>Saltar</button></div>
+<button class="navb" id="prev" type="button" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+<button class="navb" id="next" type="button" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+<style>
+.navb{position:fixed;top:44%;transform:translateY(-50%);z-index:8;width:58px;height:58px;border-radius:50%;display:none;place-items:center;padding:0;background:rgba(4,18,53,.6);border:1.5px solid rgba(200,217,252,.5);color:#fcfdff;touch-action:manipulation;-webkit-tap-highlight-color:transparent;box-shadow:0 10px 30px -12px rgba(0,0,0,.6);transition:background .2s,transform .15s}
+.navb svg{width:24px;height:24px}
+.navb:active{transform:translateY(-50%) scale(.92);background:rgba(223,226,87,.95);color:#0033a0;border-color:transparent}
+.navb:disabled{opacity:.3}
+#prev{left:calc(env(safe-area-inset-left,0px) + 14px)}
+#next{right:calc(env(safe-area-inset-right,0px) + 14px)}
+body.nav-on .navb{display:grid}
+@media (min-width:761px){.navb{width:64px;height:64px;top:50%}#prev{left:28px}#next{right:28px}.navb:hover{background:rgba(223,226,87,.95);color:#0033a0;border-color:transparent}}
+</style>
 <div class="scrim"></div>
 <div class="words" aria-live="polite"><p class="eb" id="eb"></p><h1 id="h"></h1><p id="sub"></p></div>
-<div class="gate" id="gate"><div class="in"><small>Para todo SURA Tech</small><h2>Estás invitado</h2><p>Desde el lunes 23 de noviembre nos vemos en la oficina de Medellín. Dale play y mira lo que te espera.</p><button class="btn" id="play" type="button">Abrir la invitación</button></div></div>
+<div class="gate" id="gate"><div class="in"><small>Para todo SURA Tech</small><h2>Estás invitado</h2><p>El lunes 23 de noviembre, a las 9:00 a. m., la oficina de Medellín abre sus puertas a una semana que vamos a escribir entre todos.</p><button class="btn" id="play" type="button">Abrir la invitación</button></div></div>
 <div class="end" id="end"><div class="endcard" role="dialog" aria-labelledby="endTitle">
  <small>Direccionamiento estratégico 2027</small>
  <h2 id="endTitle">SURA Tech <span>Week</span></h2>
- <p class="lead">Una semana con todo el equipo en la misma oficina: cierre de 2026, roadmap 2027, Alianzas, Agencia, IA y squads. Lo demás no se cuenta, se vive.</p>
- <div class="when"><div class="cal" aria-hidden="true"><b>Nov</b><span>23</span></div><div class="when-t"><p class="nf-h">¡No faltes!</p><p class="nf-s">Del lunes 23 al viernes 27 de noviembre<br>Oficina de Medellín</p></div></div>
+ <p class="lead">Cinco días para mirar el mismo horizonte desde la misma oficina. Lo que pase ahí no se cuenta: se vive.</p>
+ <div class="when"><div class="cal" aria-hidden="true"><b>Nov</b><span>23</span></div><div class="when-t"><p class="nf-h">¡No faltes!</p><p class="nf-s">Del lunes 23 al viernes 27 de noviembre<br>Lunes 9:00 a. m. · Oficina de Medellín</p></div></div>
  <div class="row"><button class="btn ghost" id="again" type="button">Ver de nuevo</button></div>
 </div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -367,12 +379,12 @@ const spot=new THREE.SpotLight(0xfff3d6,0,34,0.5,0.7,1.2);spot.castShadow=false;
 const spotGoal=new THREE.Vector3(0,9,0),tgtGoal=new THREE.Vector3();let spotI=0;
 
 const SC=[
- {d:5.5,eb:'SURA Tech · 23 de noviembre',h:'Algo se está preparando en la oficina.',sub:'',cam:{th:0.62,ph:0.62,r:52,tx:0,ty:0,tz:0},spot:null,scr:['SURA Tech Week','Pronto']},
- {d:8,eb:'Lunes · Llega temprano',h:'La bienvenida viene con detalles.',sub:'Cerramos 2026, abrimos el roadmap 2027 y llega el go-live más esperado: Alianzas. Más el debut del modelo Agencia.',cam:{th:0.3,ph:0.98,r:19,tx:2,ty:0.4,tz:-0.6},spot:[2,0.5,-0.4,8],scr:['Lo más esperado','Alianzas']},
- {d:8,eb:'Martes',h:'¿Cómo vamos a jugar en 2027?',sub:'Cada equipo pone su estrategia en la mesa y armamos la alineación.',cam:{th:-0.35,ph:0.9,r:22,tx:3,ty:0.4,tz:-2},spot:[2,0.5,-0.6,8],scr:['Estrategia 2027','¿Cómo jugamos?']},
- {d:7.5,eb:'Miércoles',h:'Mindset SURA Tech: así trabajamos.',sub:'Cómo pensamos, cómo trabajamos y cómo funciona el trabajo por squads.',cam:{th:0.05,ph:1.08,r:11.5,tx:2,ty:2.5,tz:-8.2},spot:[2,1,-7.4,8],scr:['Miércoles','Mindset']},
- {d:7.5,eb:'Jueves',h:'Día de squads.',sub:'Manos a la obra: cada squad aterriza su 2027, y cerramos con un ejercicio práctico con IA. ¡Nadie se lo puede perder!',cam:{th:0.7,ph:0.95,r:11,tx:10,ty:0.6,tz:-3.2},spot:[10,0.8,-3.2,7],scr:['Jueves','Squads']},
- {d:6.5,eb:'Viernes',h:'Regreso.',sub:'Cada quien vuelve a casa con el 2027 en la maleta.',cam:{th:0.9,ph:1.0,r:13,tx:11.6,ty:1.2,tz:7.4},spot:[11.6,1,6.5,7],scr:['Nos vemos en','2027']},
+ {d:8,eb:'SURA Tech · 23 de noviembre',h:'La próxima semana, nuestro 2027 empieza a tomar forma.',sub:'Cinco días de direccionamiento estratégico, todos en la misma oficina. Este es el recorrido.',cam:{th:0.62,ph:0.62,r:52,tx:0,ty:0,tz:0},spot:null,scr:['SURA Tech Week','Pronto']},
+ {d:9,eb:'Lunes · 9:00 a. m.',h:'Empezamos temprano, porque hay mucho por mirar.',sub:'Repasamos cómo cerramos 2026, ponemos sobre la mesa nuestros modelos de negocio y miramos de frente lo que viene en 2027. Y la bienvenida tiene sus detalles.',cam:{th:0.3,ph:0.98,r:19,tx:2,ty:0.4,tz:-0.6},spot:[2,0.5,-0.4,8],scr:['Modelos de negocio','2027']},
+ {d:8,eb:'Martes',h:'Cada equipo trae su jugada.',sub:'Cada equipo cuenta su estrategia para 2027 y, por primera vez, vemos el mapa completo.',cam:{th:-0.35,ph:0.9,r:22,tx:3,ty:0.4,tz:-2},spot:[2,0.5,-0.6,8],scr:['Estrategia 2027','¿Cómo jugamos?']},
+ {d:8,eb:'Miércoles',h:'La forma de trabajar también es estrategia.',sub:'Mindset SURA Tech y alineación: cómo pensamos, cómo decidimos y cómo trabajamos en squads, todos para el mismo lado.',cam:{th:0.05,ph:1.08,r:11.5,tx:2,ty:2.5,tz:-8.2},spot:[2,1,-7.4,8],scr:['Miércoles','Mindset']},
+ {d:8.5,eb:'Jueves',h:'Del dicho al hecho: día de retos.',sub:'Por squads, resolvemos retos reales de 2027 y cerramos con un ejercicio práctico con IA. Este día no te lo puedes perder.',cam:{th:0.7,ph:0.95,r:11,tx:10,ty:0.6,tz:-3.2},spot:[10,0.8,-3.2,7],scr:['Jueves','Retos']},
+ {d:6.5,eb:'Viernes',h:'Volvemos a casa.',sub:'Cada quien regresa con el 2027 en la maleta.',cam:{th:0.9,ph:1.0,r:13,tx:11.6,ty:1.2,tz:7.4},spot:[11.6,1,6.5,7],scr:['Nos vemos en','2027']},
  {d:999,end:true,cam:{th:0.62,ph:0.86,r:46,tx:0,ty:0,tz:-0.5},spot:null}];
 
 /* camera */
@@ -402,12 +414,16 @@ function go(i,now){idx=i;sceneStart=now;const s=SC[i];Object.assign(goal,s.cam);
  if(s.spot){tgtGoal.set(s.spot[0],s.spot[1],s.spot[2]);spotGoal.set(s.spot[0]+1.5,s.spot[3]+1,s.spot[2]+2.5);spotI=2.8;}else spotI=0;
  const door=!!s.door||!!s.end;glowGoal=door?2.4:0;
  if(s.end){lightsOn();$('skip').hidden=true;$('end').classList.add('show');[...dotsEl.children].forEach(d=>d.classList.remove('on'));}
- else $('end').classList.remove('show');}
+ else $('end').classList.remove('show');
+ document.body.classList.toggle('nav-on',playing&&!s.end);$('prev').disabled=i===0;}
 let glowGoal=0;
 function lightsOn(){lit=true;drawTeaser('Nos vemos el','23 de noviembre');}
 function start(){$('gate').classList.add('out');$('skip').hidden=false;playing=true;lit=false;drawTeaser('SURA Tech Week','Pronto');go(0,clock.getElapsedTime());}
 $('play').onclick=start;
 $('skip').onclick=()=>go(SC.length-1,clock.getElapsedTime());
+$('prev').onclick=()=>{if(idx>0)go(idx-1,clock.getElapsedTime());};
+$('next').onclick=()=>{if(idx<SC.length-1)go(idx+1,clock.getElapsedTime());};
+addEventListener('keydown',e=>{if(!playing)return;if(e.key==='ArrowRight')$('next').click();if(e.key==='ArrowLeft')$('prev').click();});
 $('again').onclick=()=>{$('end').classList.remove('show');Object.assign(rig,{th:1.4,ph:0.3,r:90});start();};
 
 /* loop */
